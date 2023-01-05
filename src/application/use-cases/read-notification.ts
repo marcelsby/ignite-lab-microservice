@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { NotificationRepository } from '../repositories/notification-repository';
+import { NotificationCanceledError } from './errors/notification-canceled-error';
 import { NotificationNotFoundError } from './errors/notification-not-found-error';
 
 interface ReadNotificationRequest {
@@ -23,6 +24,10 @@ export class ReadNotification {
 
     if (!notification) {
       throw new NotificationNotFoundError();
+    }
+
+    if (notification.canceledAt) {
+      throw new NotificationCanceledError();
     }
 
     notification.read();

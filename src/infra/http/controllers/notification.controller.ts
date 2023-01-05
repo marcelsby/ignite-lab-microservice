@@ -3,11 +3,21 @@ import { CountRecipientNotifications } from '@application/use-cases/count-recipi
 import { GetRecipientNotifications } from '@application/use-cases/get-recipient-notifications';
 import { ReadNotification } from '@application/use-cases/read-notification';
 import { UnreadNotification } from '@application/use-cases/unread-notification';
-import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Patch,
+  Post,
+  UseFilters,
+} from '@nestjs/common';
 import { SendNotification } from 'src/application/use-cases/send-notification';
 import { CreateNotificationBody } from '../dtos/create-notification-body';
+import { StandardBadRequestFilter } from '../error-filters/standard-bad-request-filter';
 import { NotificationViewModel } from '../view-models/notification-view-model';
 
+@UseFilters(StandardBadRequestFilter)
 @Controller('notifications')
 export class NotificationController {
   constructor(
